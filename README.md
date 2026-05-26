@@ -39,48 +39,48 @@ Here we provide an example to quickly start with the experiments, and reproduce 
 ### 0. Download data
 
 The data will be under `data/uci-har` by default. You can modify the data path in `system.cfg` if needed.
-`cd FedAED/data`
-`bash download_uci_har.sh`
-`cd ..`
+- `cd FedAED/data`
+- `bash download_uci_har.sh`
+- `cd ..`
 
 ### 1. Partition the data
 
-`alpha` specifies the non-IIDness of the partition; lower values produce higher data heterogeneity. Each subject’s data is partitioned into sub‑clients.
+- `alpha` specifies the non-IIDness of the partition; lower values produce higher data heterogeneity. Each subject’s data is partitioned into sub‑clients.
 
-`python3 features/data_partitioning/uci-har/data_partition.py --alpha 0.1 --num_clients 20`
-`python3 features/data_partitioning/uci-har/data_partition.py --alpha 5.0 --num_clients 20`
+- `python3 features/data_partitioning/uci-har/data_partition.py --alpha 0.1 --num_clients 20`
+- `python3 features/data_partitioning/uci-har/data_partition.py --alpha 5.0 --num_clients 20`
 
 ### 2. Feature extraction
 The returned data is a list, each item containing `[key, file_name, label]`.
 For UCI-HAR, feature extraction mainly handles normalization.
 
-`python3 features/feature_processing/uci-har/extract_feature.py --alpha 0.1`
-`python3 features/feature_processing/uci-har/extract_feature.py --alpha 5.0`
+- `python3 features/feature_processing/uci-har/extract_feature.py --alpha 0.1`
+- `python3 features/feature_processing/uci-har/extract_feature.py --alpha 5.0`
 
 ### 3. (Optional) Simulate missing modality conditions
 
 Default missing modality simulation returns missing rates at 10%, 20%, 30%, 40%, 50%.
-'cd features/simulation_features/uci-har'
+- 'cd features/simulation_features/uci-har'
 
 The returned data is a list, each item containing:  
-`[missing_modalityA, missing_modalityB, new_label, missing_label]`.  
-`missing_modalityA` and `missing_modalityB` indicate missing modality flags, `new_label` indicates erroneous label, and `missing_label` indicates if the label is missing for a data point.
+- `[missing_modalityA, missing_modalityB, new_label, missing_label]`.  
+- `missing_modalityA` and `missing_modalityB` indicate missing modality flags, `new_label` indicates erroneous label, and `missing_label` indicates if the label is missing for a data point.
 
 ### 4. Run baseline experiments (FedAvg, FedOpt, FedProx, ...)
-`cd experiment/uci-har`
-`bash run_base.sh`
+- `cd experiment/uci-har`
+- `bash run_base.sh`
 
 ### 5. Run FedAED experiments
 To run the proposed FedAED framework (which includes AMA, CCR, and ABC):
-`cd experiment/uci-har`
-`bash run_fedaed.sh`
+- `cd experiment/uci-har`
+- `bash run_fedaed.sh`
 
 
 You can also run FedAED with specific corruption settings (missing modalities, missing labels, erroneous labels, or combined):
-`python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3`
-`python main.py --method FedAED --dataset uci-har --miss_label_rate 0.2`
-`python main.py --method FedAED --dataset uci-har --err_label_rate 0.2`
-`python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3 --miss_label_rate 0.2 --err_label_rate 0.2`
+- `python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3`
+- `python main.py --method FedAED --dataset uci-har --miss_label_rate 0.2`
+- `python main.py --method FedAED --dataset uci-har --err_label_rate 0.2`
+- `python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3 --miss_label_rate 0.2 --err_label_rate 0.2`
 
 ## Citation
 
