@@ -2,7 +2,10 @@
 ## Federated Adaptive Equilibrium Distillation for Effective Cross-Modal Knowledge Transfer in Multimodal Federated Learning
 ### About the research
 In this study, we propose a general Multimodal Federated Learning (MFL) framework called Federated Adaptive Equilibrium Distillation (FedAED) to address the challenges of modality heterogeneity, including missing modalities, incomplete labels, and annotation errors. FedAED enhances cross-modal collaboration by dynamically adapting knowledge transfer paths and establishing a globally consistent semantic space, enabling personalized local models to effectively learn complementary multimodal information while preserving robustness under dynamic modality availability. This framework improves the effectiveness, stability, and fairness of MFL under diverse heterogeneous conditions.
-[framework.pdf](https://github.com/user-attachments/files/28245108/framework.pdf)
+
+<img width="4042" height="1936" alt="framework" src="https://github.com/user-attachments/assets/6f6c8eaa-2080-44db-87b7-787f014c659f" />
+
+
 To overcome the limitations of static knowledge transfer designs that lack flexibility to adapt to changing modality availability, FedAED introduces three complementary components: Adaptive Modality Alignment (AMA), Cross-modal Contrastive Regularization (CCR), and Asynchronous Bi-directional Collaboration (ABC).
 - **Adaptive Modality Alignment (AMA)** adopts a gated attention mechanism adapted to MFL environments. It dynamically adjusts knowledge propagation paths based on real-time modality availability, refining each modality’s representation by aligning it with complementary cues from other available modalities.
 - **Cross-modal Contrastive Regularization (CCR)** captures complementary associations across modalities through dual-level contrastive learning. It promotes intra-modal consistency and inter-modal alignment, bridging semantic gaps across heterogeneous clients.
@@ -36,23 +39,23 @@ Here we provide an example to quickly start with the experiments, and reproduce 
 ### 0. Download data
 
 The data will be under `data/uci-har` by default. You can modify the data path in `system.cfg` if needed.
-'cd FedAED/data'
-'bash download_uci_har.sh'
-'cd ..'
+`cd FedAED/data`
+`bash download_uci_har.sh`
+`cd ..`
 
 ### 1. Partition the data
 
 `alpha` specifies the non-IIDness of the partition; lower values produce higher data heterogeneity. Each subject’s data is partitioned into sub‑clients.
 
-'python3 features/data_partitioning/uci-har/data_partition.py --alpha 0.1 --num_clients 20'
-'python3 features/data_partitioning/uci-har/data_partition.py --alpha 5.0 --num_clients 20'
+`python3 features/data_partitioning/uci-har/data_partition.py --alpha 0.1 --num_clients 20`
+`python3 features/data_partitioning/uci-har/data_partition.py --alpha 5.0 --num_clients 20`
 
 ### 2. Feature extraction
 The returned data is a list, each item containing `[key, file_name, label]`.
 For UCI-HAR, feature extraction mainly handles normalization.
 
-'python3 features/feature_processing/uci-har/extract_feature.py --alpha 0.1'
-'python3 features/feature_processing/uci-har/extract_feature.py --alpha 5.0'
+`python3 features/feature_processing/uci-har/extract_feature.py --alpha 0.1`
+`python3 features/feature_processing/uci-har/extract_feature.py --alpha 5.0`
 
 ### 3. (Optional) Simulate missing modality conditions
 
@@ -64,20 +67,20 @@ The returned data is a list, each item containing:
 `missing_modalityA` and `missing_modalityB` indicate missing modality flags, `new_label` indicates erroneous label, and `missing_label` indicates if the label is missing for a data point.
 
 ### 4. Run baseline experiments (FedAvg, FedOpt, FedProx, ...)
-'cd experiment/uci-har'
-'bash run_base.sh'
+`cd experiment/uci-har`
+`bash run_base.sh`
 
 ### 5. Run FedAED experiments
 To run the proposed FedAED framework (which includes AMA, CCR, and ABC):
-'cd experiment/uci-har'
-'bash run_fedaed.sh'
+`cd experiment/uci-har`
+`bash run_fedaed.sh`
 
 
 You can also run FedAED with specific corruption settings (missing modalities, missing labels, erroneous labels, or combined):
-'python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3'
-'python main.py --method FedAED --dataset uci-har --miss_label_rate 0.2'
-'python main.py --method FedAED --dataset uci-har --err_label_rate 0.2'
-'python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3 --miss_label_rate 0.2 --err_label_rate 0.2'
+`python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3`
+`python main.py --method FedAED --dataset uci-har --miss_label_rate 0.2`
+`python main.py --method FedAED --dataset uci-har --err_label_rate 0.2`
+`python main.py --method FedAED --dataset uci-har --miss_modality_rate 0.3 --miss_label_rate 0.2 --err_label_rate 0.2`
 
 ## Citation
 
